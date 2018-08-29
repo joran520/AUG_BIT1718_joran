@@ -1,0 +1,58 @@
+mysql> use bioinf_examen
+R
+
+
+vraag 10 nr1:
+Give the name and length of the largest gene in the genome?
+
+query
+mysql> SELECT gene_name, (seq_region_end-seq_region_start+1) AS length FROM gene ORDER BY length DESC LIMIT 1;
+
+result
++-----------+---------+
+| gene_name | length  |
++-----------+---------+
+| TMPRSS3   | 5379014 |
++-----------+---------+
+1 row in set (0.10 sec)
+
+vraag 10 nr2:
+What is the name of the gene with the second most transcripts? what is the number of transcripts?
+
+query
+mysql> SELECT gene_name, count(*) FROM gene JOIN transcript ON gene.gene_id=transcript.gene_id GROUP BY gene_name ORDER BY count(*) desc LIMIT 1 OFFSET 1;
+results
++-----------+----------+
+| gene_name | count(*) |
++-----------+----------+
+| Y_RNA     |      813 |
++-----------+----------+
+1 row in set (0.36 sec)
+
+vraag 10 nr3:
+Give the name of the chromosome with the most genes that tell something about cancer.
+
+query:
+mysql> SELECT chromosome FROM gene WHERE description LIKE '%cancer%' GROUP BY chromosome ORDER BY count(*) desc LIMIT 1;
+
+result:
++------------+
+| chromosome |
++------------+
+| X          |
++------------+
+
+
+What is the number of exons on this chromosome?
+query:
+mysql> SELECT count(et.exon_id) FROM gene AS g JOIN transcript AS t ON g.gene_id=t.gene_id JOIN exon_transcript AS et ON t.transcript_id=et.transcript_id WHERE g.chromosome = "X";
+
+result:
++-------------------+
+| count(et.exon_id) |
++-------------------+
+|             37584 |
++-------------------+
+1 row in set (0.09 sec)
+
+

@@ -1,0 +1,36 @@
+
+Vraag12a
+What is the mapping location of variant rs4224828 in the mouse?
+
+query:
+[guest@howest ~]$ curl 'http://rest.ensembl.org/variation/mouse/rs4224828' -H 'Content-type:application/json'
+
+result:
+{"source":"Variants (including SNPs and indels) imported from dbSNP","mappings":[{"location":"4:136443949-136443949","assembly_name":"GRCm38","end":136443949,"seq_region_name":"4","strand":1,"coord_system":"chromosome","allele_string":"T/C","start":136443949}],"name":"rs4224828","MAF":null,"ambiguity":"Y","var_class":"SNP","synonyms":[],"evidence":["Multiple_observations","Frequency"],"ancestral_allele":null,"min
+
+find mapping location:
+location":"4:136443949-136443949"
+
+
+vraag12b
+Give the first 100 bases of the genomic FASTA sequence of the MYCN gene in the zebrafish
+
+query1:
+[guest@howest ~]$ curl 'http://rest.ensembl.org/lookup/symbol/zebrafish/MYCN' -H 'Conteon/json'application'
+
+result1:
+{"source":"ensembl_havana","object_type":"Gene","logic_name":"ensembl_havana_gene","version":9,"species":"zebrafish","description":"MYCN proto-oncogene, bHLH transcription factor [Source:ZFIN;Acc:ZDB-GENE-020711-1]","display_name":"mycn","assembly_name":"GRCz11","biotype":"protein_coding","end":33299384,"seq_region_name":"20","db_type":"core","strand":1,"id":"ENSDARG00000006837","start":33294428}
+
+query2:
+[guest@howest ~]$ curl 'http://rest.ensembl.org/sequence/id/ENSDARG00000006837?type=genomic;end=100' -H 'Content-type:text/x-fasta'
+
+result2 (eindresultaat):
+>ENSDARG00000006837.9 chromosome:GRCz11:20:33294428:33294527:1
+TAGAATAATACTTCACAGCCCGAAACACAGAGGCGCAGAACAGTCTTCAGTCGCCGCGGT
+AGATGTGCGACTCCAAACGGGAGGCACAGTGACTGCGATA
+
+
+
+
+
+

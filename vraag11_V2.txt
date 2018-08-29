@@ -1,0 +1,90 @@
+mongoimport --db bioinf_mongo_examen /media/sf_shared_folder/databases/examen/bioinf_mongo_examen.json 
+2018-08-29T10:36:29.505+0200	no collection specified
+2018-08-29T10:36:29.505+0200	using filename 'bioinf_mongo_examen' as collection
+2018-08-29T10:36:29.513+0200	connected to: localhost
+2018-08-29T10:36:29.620+0200	imported 1691 documents
+
+Vraag11 nr1
+Give the number of medicines taken with a dental gel(GEL;DENTAL). Make sure that you query only shows the name of the drug.
+
+Query name of the drug:
+db.bioinf_mongo_examen.find({method_of_admission: {$in: [/GEL/,/DENTAL/]}},{_id:0, drug:1})
+
+result name of the drug:
+{ "drug" : "BUTISOL SODIUM" }
+{ "drug" : "SULFAPYRIDINE" }
+{ "drug" : "STILBETIN" }
+{ "drug" : "HEPARIN SODIUM PRESERVATIVE FREE" }
+{ "drug" : "PERCORTEN" }
+{ "drug" : "PANHEPRIN" }
+{ "drug" : "VERTAVIS" }
+{ "drug" : "PBZ" }
+{ "drug" : "MANNITOL 25%" }
+{ "drug" : "BAL" }
+{ "drug" : "SOTRADECOL" }
+{ "drug" : "METHERGINE" }
+{ "drug" : "PROPYLTHIOURACIL" }
+{ "drug" : "DIENESTROL" }
+{ "drug" : "SYNOPHYLATE" }
+{ "drug" : "METHADONE HYDROCHLORIDE" }
+{ "drug" : "GAMOPHEN" }
+{ "drug" : "KWELL" }
+{ "drug" : "SULFONAMIDES DUPLEX" }
+{ "drug" : "CAFERGOT" }
+Type "it" for more
+
+
+Query number of medicines taken:
+db.bioinf_mongo_examen.count({method_of_admission: {$in: [/GEL/,/DENTAL/]}},{_id:0, drug:1})
+
+Results
+227
+
+
+vraag11 nr2:
+
+db.bioinf_mongo_examen.find({percentage_of_side_effects: {$gt: 8}}).length()
+399
+
+
+vraag11 nr3:
+
+query:
+db.bioinf_mongo_examen.aggregate([{$group: {_id: "$company", average: {$avg: "$percentage_of_side_effects"}}},{$match: {average: {$gt: 10}}},{$sort: {average:-1}}])
+
+result
+{ "_id" : "Galderma Laboratories, L.P.", "average" : 11.5 }
+{ "_id" : "Watson Pharmaceuticals, Inc.", "average" : 10.65 }
+{ "_id" : "Durata Therapeutics, Inc.", "average" : 10.5 }
+
+vraag11 nr4:
+
+query:
+db.bioinf_mongo_examen.aggregate([{$group: {_id: "$company", average: {$avg: "$percentage_of_side_effects"}}},{$match: {average: {$gt: 10}}},{$sort: {average:-1}}])
+
+Result:
+{ "_id" : "Galderma Laboratories, L.P.", "average" : 11.5 }
+{ "_id" : "Watson Pharmaceuticals, Inc.", "average" : 10.65 }
+{ "_id" : "Durata Therapeutics, Inc.", "average" : 10.5 }
+> db.bioinf_mongo_examen.aggregate([{$group: {_id: "$company", numberofdrugs: {$sum:1}, lower_limit: {$min: "$percentage_of_side_effects"}, upper_limit: {$max: "$percentage_of_side_effects"}}},{$match: {numberofdrugs: {$gt: 1}}}])
+{ "_id" : "West-Ward Pharmaceuticals", "numberofdrugs" : 2, "lower_limit" : 5.6, "upper_limit" : 6.5 }
+{ "_id" : "ViiV Healthcare", "numberofdrugs" : 4, "lower_limit" : 5.8, "upper_limit" : 10.2 }
+{ "_id" : "Vertical Pharmaceuticals, LLC", "numberofdrugs" : 2, "lower_limit" : 7, "upper_limit" : 9.5 }
+{ "_id" : "Upsher-Smith Laboratories Inc.", "numberofdrugs" : 3, "lower_limit" : 6, "upper_limit" : 11.5 }
+{ "_id" : "URL Pharma, Inc.", "numberofdrugs" : 3, "lower_limit" : 7.5, "upper_limit" : 9 }
+{ "_id" : "Turing Pharmaceuticals LLC", "numberofdrugs" : 5, "lower_limit" : 5.7, "upper_limit" : 9 }
+{ "_id" : "Torrent Pharmaceuticals Limited", "numberofdrugs" : 5, "lower_limit" : 5.2, "upper_limit" : 8.5 }
+{ "_id" : "Teva Pharmaceuticals USA, Inc.", "numberofdrugs" : 3, "lower_limit" : 5.2, "upper_limit" : 8.5 }
+{ "_id" : "Tesaro Inc.", "numberofdrugs" : 3, "lower_limit" : 4.5, "upper_limit" : 8.1 }
+{ "_id" : "Takeda Pharmaceuticals U.S.A., Inc.", "numberofdrugs" : 3, "lower_limit" : 7, "upper_limit" : 9 }
+{ "_id" : "Synthon Pharmaceuticals Inc.", "numberofdrugs" : 2, "lower_limit" : 7, "upper_limit" : 8 }
+{ "_id" : "Spear Pharmaceuticals", "numberofdrugs" : 2, "lower_limit" : 8.5, "upper_limit" : 8.5 }
+{ "_id" : "Sirion Therapeutics, Inc.", "numberofdrugs" : 4, "lower_limit" : 5, "upper_limit" : 8.2 }
+{ "_id" : "Silvergate Pharmaceuticals, Inc.", "numberofdrugs" : 2, "lower_limit" : 7.4, "upper_limit" : 8 }
+{ "_id" : "Roche", "numberofdrugs" : 4, "lower_limit" : 5.2, "upper_limit" : 7.1 }
+{ "_id" : "Xanodyne Pharmaceuticals, Inc", "numberofdrugs" : 4, "lower_limit" : 7, "upper_limit" : 10 }
+{ "_id" : "UCB, Inc.", "numberofdrugs" : 4, "lower_limit" : 5.5, "upper_limit" : 9 }
+{ "_id" : "Qualitest Pharmaceuticals", "numberofdrugs" : 2, "lower_limit" : 6, "upper_limit" : 8.5 }
+{ "_id" : "Procter & Gamble", "numberofdrugs" : 2, "lower_limit" : 6, "upper_limit" : 6.4 }
+{ "_id" : "Pozen Inc.", "numberofdrugs" : 3, "lower_limit" : 6, "upper_limit" : 6 }
+
